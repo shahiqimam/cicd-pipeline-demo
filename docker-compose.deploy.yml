@@ -1,0 +1,15 @@
+# Used by scripts/deploy.ps1. One compose "project" per environment (demo-staging, demo-production).
+services:
+  api:
+    image: ${REGISTRY}/api:${IMAGE_TAG}
+    restart: unless-stopped
+    ports:
+      - "${API_PORT}:3000"
+
+  web:
+    image: ${REGISTRY}/web:${IMAGE_TAG}
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT}:3000"
